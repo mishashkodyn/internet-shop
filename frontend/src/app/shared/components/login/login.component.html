@@ -1,0 +1,50 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h1 class="auth-card__title">Welcome back</h1>
+    <p class="auth-card__subtitle">Sign in to your account</p>
+
+    <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      @if (errorMessage()) {
+        <p class="auth-form__error-banner">{{ errorMessage() }}</p>
+      }
+
+      <div class="auth-form__field">
+        <label class="auth-form__label" for="email">Email</label>
+        <input
+          class="auth-form__input"
+          [class.auth-form__input--error]="form.controls.email.touched && form.controls.email.invalid"
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+        />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <span class="auth-form__error">Please enter a valid email address.</span>
+        }
+      </div>
+
+      <div class="auth-form__field">
+        <label class="auth-form__label" for="password">Password</label>
+        <input
+          class="auth-form__input"
+          [class.auth-form__input--error]="form.controls.password.touched && form.controls.password.invalid"
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <span class="auth-form__error">Password is required.</span>
+        }
+      </div>
+
+      <button class="auth-form__submit btn btn-primary" type="submit" [disabled]="loading()">
+        {{ loading() ? 'Signing in…' : 'Sign in' }}
+      </button>
+    </form>
+
+    <p class="auth-card__footer">Don't have an account? <a routerLink="/register">Register</a></p>
+  </div>
+</div>

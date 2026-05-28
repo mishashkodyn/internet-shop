@@ -1,0 +1,84 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h1 class="auth-card__title">Create account</h1>
+    <p class="auth-card__subtitle">Join us today — it's free</p>
+
+    <form class="auth-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      @if (errorMessage()) {
+        <p class="auth-form__error-banner">{{ errorMessage() }}</p>
+      }
+
+      <div class="auth-form__field">
+        <label class="auth-form__label" for="displayName">Display name</label>
+        <input
+          class="auth-form__input"
+          [class.auth-form__input--error]="form.controls.displayName.touched && form.controls.displayName.invalid"
+          id="displayName"
+          type="text"
+          formControlName="displayName"
+          placeholder="Your name"
+          autocomplete="name"
+        />
+        @if (form.controls.displayName.touched && form.controls.displayName.invalid) {
+          <span class="auth-form__error">Display name is required (max 100 characters).</span>
+        }
+      </div>
+
+      <div class="auth-form__field">
+        <label class="auth-form__label" for="email">Email</label>
+        <input
+          class="auth-form__input"
+          [class.auth-form__input--error]="form.controls.email.touched && form.controls.email.invalid"
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+        />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <span class="auth-form__error">Please enter a valid email address.</span>
+        }
+      </div>
+
+      <div class="auth-form__field">
+        <label class="auth-form__label" for="password">Password</label>
+        <input
+          class="auth-form__input"
+          [class.auth-form__input--error]="form.controls.password.touched && form.controls.password.invalid"
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="••••••••"
+          autocomplete="new-password"
+        />
+        @if (form.controls.password.touched && form.controls.password.invalid) {
+          <span class="auth-form__error">
+            Password must be at least 8 characters and contain a digit and special character.
+          </span>
+        }
+      </div>
+
+      <div class="auth-form__field">
+        <label class="auth-form__label" for="confirmPassword">Confirm password</label>
+        <input
+          class="auth-form__input"
+          [class.auth-form__input--error]="form.hasError('passwordMismatch') && form.controls.confirmPassword.touched"
+          id="confirmPassword"
+          type="password"
+          formControlName="confirmPassword"
+          placeholder="••••••••"
+          autocomplete="new-password"
+        />
+        @if (form.hasError('passwordMismatch') && form.controls.confirmPassword.touched) {
+          <span class="auth-form__error">Passwords do not match.</span>
+        }
+      </div>
+
+      <button class="auth-form__submit btn btn-primary" type="submit" [disabled]="loading()">
+        {{ loading() ? 'Creating account…' : 'Create account' }}
+      </button>
+    </form>
+
+    <p class="auth-card__footer">Already have an account? <a routerLink="/login">Sign in</a></p>
+  </div>
+</div>

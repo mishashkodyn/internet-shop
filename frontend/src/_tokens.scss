@@ -1,0 +1,65 @@
+// =====================================================================
+// Design tokens — VARIABLES ONLY (no CSS output)
+// Import this partial in component .scss files via @use
+// =====================================================================
+
+// Brand colours
+$color-primary:        #3f51b5;
+$color-primary-light:  #7986cb;
+$color-primary-dark:   #283593;
+
+$color-accent:         #ff4081;
+$color-accent-light:   #ff80ab;
+
+$color-danger:         #e53935;
+$color-success:        #43a047;
+$color-warning:        #fb8c00;
+
+// Neutrals
+$color-bg:             #fafafa;
+$color-surface:        #ffffff;
+$color-border:         #e0e0e0;
+
+$color-text-primary:   #212121;
+$color-text-secondary: #757575;
+$color-text-disabled:  #bdbdbd;
+
+// Spacing scale
+$space-xs:   4px;
+$space-sm:   8px;
+$space-md:   16px;
+$space-lg:   24px;
+$space-xl:   32px;
+$space-xxl:  48px;
+
+// Typography
+$font-family-base:   'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-size-base:     16px;
+$font-size-sm:       14px;
+$font-size-lg:       18px;
+$font-size-xl:       24px;
+$font-size-xxl:      32px;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold:   700;
+$line-height-base:   1.5;
+
+// Borders & radii
+$border-radius-sm:   4px;
+$border-radius-md:   8px;
+$border-radius-lg:   12px;
+
+// Shadows
+$shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+$shadow-md:  0 4px 6px rgba(0, 0, 0, 0.1),  0 2px 4px rgba(0, 0, 0, 0.06);
+$shadow-lg:  0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+
+// Breakpoints
+$bp-sm:  576px;
+$bp-md:  768px;
+$bp-lg:  992px;
+$bp-xl:  1200px;
+
+// Transitions
+$transition-base:   all 0.2s ease-in-out;
+$transition-fast:   all 0.1s ease-in-out;

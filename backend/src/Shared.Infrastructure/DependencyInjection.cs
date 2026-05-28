@@ -1,7 +1,12 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Shared.Application.Abstractions;
+using Shared.Application.Services;
 using Shared.Infrastructure.Identity;
 using Shared.Infrastructure.Persistence;
 
@@ -23,11 +28,17 @@ public static class DependencyInjection
                 "Connection string 'DefaultConnection' was not found in configuration.");
 
         services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(connectionString));
+            options.UseSqlServer(connectionString,
+                sql => sql.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(10),
+                    errorNumbersToAdd: null)));
 
         // AddIdentityCore is the right surface for an API/token-based app hosted in a class
         // library — it avoids the cookie-auth wiring that AddIdentity pulls in (and the
         // FrameworkReference to Microsoft.AspNetCore.App that would imply).
+        services.AddDataProtection();
+
         services
             .AddIdentityCore<ApplicationUser>(options =>
             {
@@ -49,6 +60,32 @@ public static class DependencyInjection
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
+
+        // JWT settings + token generation
+        services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+        services.AddScoped<IJwtService, JwtService>();
+        services.AddScoped<IIdentityService, IdentityService>();
+        services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+
+        // JWT Bearer authentication
+        var jwtSettings = configuration.GetSection("JwtSettings").Get<JwtSettings>()!;
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(opts =>
+            {
+                opts.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtSettings.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = jwtSettings.Audience,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero  // removes default 5-min grace period
+                };
+            });
+        services.AddAuthorization();
 
         return services;
     }

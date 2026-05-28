@@ -1,0 +1,23 @@
+<div class="account">
+  <h1 class="account__title">My Account</h1>
+  @if (currentUser(); as user) {
+    <div class="account__card">
+      <div class="account__row">
+        <span class="account__label">Email</span>
+        <span class="account__value">{{ user.email }}</span>
+      </div>
+      <div class="account__row">
+        <span class="account__label">Display Name</span>
+        <span class="account__value">{{ user.displayName }}</span>
+      </div>
+      <div class="account__row">
+        <span class="account__label">Roles</span>
+        <span class="account__value">{{ user.roles.join(', ') }}</span>
+      </div>
+      <div class="account__actions">
+        <button class="account__btn account__btn--danger" (click)="logout()">Sign Out</button>
+      </div>
+    </div>
+  }
+  <p class="account__back"><a routerLink="/">Back to Home</a></p>
+</div>

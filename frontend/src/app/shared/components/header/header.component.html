@@ -1,0 +1,32 @@
+<header class="header">
+  <div class="header__inner">
+    <a routerLink="/" class="header__brand" (click)="closeMenu()">ShopBlog</a>
+
+    <nav class="header__nav" [class.header__nav--open]="menuOpen()">
+      <a routerLink="/" routerLinkActive="header__link--active"
+         [routerLinkActiveOptions]="{ exact: true }"
+         class="header__link" (click)="closeMenu()">Home</a>
+      <a routerLink="/shop" routerLinkActive="header__link--active"
+         class="header__link" (click)="closeMenu()">Shop</a>
+      <a routerLink="/blog" routerLinkActive="header__link--active"
+         class="header__link" (click)="closeMenu()">Blog</a>
+    </nav>
+
+    <div class="header__actions">
+      @if (authService.isAuthenticated()) {
+        <span class="header__user">{{ authService.currentUser()?.displayName }}</span>
+        <button class="btn btn-ghost header__btn" (click)="logout()">Log out</button>
+      } @else {
+        <a routerLink="/login" class="btn btn-ghost header__btn" (click)="closeMenu()">Log in</a>
+        <a routerLink="/register" class="btn btn-primary header__btn" (click)="closeMenu()">Register</a>
+      }
+    </div>
+
+    <button class="header__hamburger" (click)="toggleMenu()"
+            [attr.aria-expanded]="menuOpen()" aria-label="Toggle navigation">
+      <span [class.open]="menuOpen()"></span>
+      <span [class.open]="menuOpen()"></span>
+      <span [class.open]="menuOpen()"></span>
+    </button>
+  </div>
+</header>

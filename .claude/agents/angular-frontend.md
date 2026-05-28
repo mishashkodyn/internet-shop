@@ -48,3 +48,18 @@ After any change to .ts, .html, or .scss files:
 2. If build fails, fix TypeScript errors and re-run
 3. Also run `npx tsc --noEmit` for fast type-checking without full build
 4. Do not finish until both pass
+
+## File separation (mandatory)
+NEVER use inline templates or inline styles in components.
+- Always use templateUrl: './x.component.html' — never template: `...`
+- Always use styleUrl: './x.component.scss' — never styles: [`...`]
+- Each component is three files: .ts, .html, .scss
+- Global design tokens (colors, spacing, fonts) go in src/styles.scss as CSS custom properties / SCSS variables, NOT hardcoded in component styles
+- Component .scss files reference the global variables, never redefine raw color hex values
+
+## Cursor and interactivity rules
+- cursor: pointer ONLY on genuinely clickable elements (buttons, links, elements with click handlers, role="button")
+- Never put cursor: pointer on plain text, cards that don't navigate, labels, headings, or decorative elements
+- If a card is clickable as a whole, the whole card gets cursor: pointer AND a proper role/tabindex/keyboard handler
+- Disabled elements: cursor: not-allowed, reduced opacity
+- Inputs: default text cursor (do not override)

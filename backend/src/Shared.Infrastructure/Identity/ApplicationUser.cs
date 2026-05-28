@@ -9,4 +9,5 @@ namespace Shared.Infrastructure.Identity;
 /// </summary>
 public class ApplicationUser : IdentityUser<Guid>
 {
+    public string DisplayName { get; set; } = string.Empty;
 }
